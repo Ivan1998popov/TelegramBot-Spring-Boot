@@ -16,9 +16,14 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.telegram.springboot.Schedule.getDBConnection;
 
 
 @Service
@@ -32,8 +37,21 @@ public class Bot extends TelegramLongPollingBot {
                 Date date = new Date();
                 SimpleDateFormat formatForDateNow = new SimpleDateFormat("E dd.MM.yyyy 'и время' hh:mm:ss a zzz");
                 sendMsg(message,"Привет, сегодня "+formatForDateNow.format(date));
-            }else{
-                sendMsg(message,"Я тестовый бот");
+            }else if(message.getText().equals("КТбо3-2 19.03.2018")){
+                Connection connection = getDBConnection();
+                Statement stmt = null;
+                try {
+                    connection.setAutoCommit(false);
+                    stmt = connection.createStatement();
+                    ResultSet answer= stmt.executeQuery("select DATA  from TBL_SCHEDULE WHERE DATA = '2018-03-19' " +
+                            "AND GROUP_='КТбо3-2'");
+                    sendMsg(message,answer.getString("group_"));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }else {
+                sendMsg(message,"Больше ничего пока не знаю!");
             }
         }
     }

@@ -18,7 +18,7 @@ public class Application {
 	public static void main(String[] args) {
 		ApiContextInitializer.init();
 		try {
-			// delete the H2 database named 'test' in the user home directory
+
 			DeleteDbFiles.execute("~", "tbl_schedule", true);
 			insertWithStatement();
 

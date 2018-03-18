@@ -43,7 +43,7 @@ public class Schedule {
         }
     }
 
-    private static Connection getDBConnection() {
+    public static Connection getDBConnection() {
         Connection dbConnection = null;
         try {
             Class.forName(DB_DRIVER);
