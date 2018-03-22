@@ -31,6 +31,9 @@ public class ApplicationTests {
 		em.persist(new Schedule());
 		transactionManager.commit(status);
 		System.out.println(em.createQuery("SELECT c FROM Schedule c").getResultList());
+	//	System.out.println(em.createQuery("SELECT с  FROM Schedule с WHERE с.data = "
+	//			+"КТбо3-2 19.03.2018")
+	//			.getResultList().isEmpty());
 	}
 
 }

@@ -12,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.SQLException;
 
-import static com.telegram.springboot.Schedule.insertWithStatement;
 
 
 @SpringBootApplication
@@ -20,14 +19,7 @@ public class Application {
 
 	public static void main(String[] args) {
 		ApiContextInitializer.init();
-//		try {
-//
-//			DeleteDbFiles.execute("~", "tbl_schedule", true);
-//			insertWithStatement();
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+
 		TelegramBotsApi telegramBotsApi =new TelegramBotsApi();
 
 		try{
