@@ -1,12 +1,16 @@
 package com.telegram.springboot;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.*;
 
 @Entity
 @Table(name = "tbl_schedule")
 public class Schedule {
+
+    @Id
+    String id;
 
     private static final String DB_DRIVER = "org.h2.Driver";
     private static final String DB_CONNECTION = "jdbc:h2:~/tbl_schedule";
@@ -18,20 +22,14 @@ public class Schedule {
         try {
             connection.setAutoCommit(false);
             stmt = connection.createStatement();
-            stmt.execute("CREATE TABLE TBL_SCHEDULE(group_ VARCHAR(9), data DATE,schedule TEXT)");
-            stmt.execute("INSERT INTO TBL_SCHEDULE(group_, data,schedule) VALUES('КТбо2-2', '2018-03-19','Вакансия ВКСиРЭБ -.-. " +
+            stmt.execute("CREATE TABLE TBL_SCHEDULE(id INT PRIMARY KEY, group_ VARCHAR(9), data DATE,schedule TEXT)");
+            stmt.execute("INSERT INTO TBL_SCHEDULE(id,group_, data,schedule) VALUES(1,'КТбо3-2', '2018-03-19','Вакансия ВКСиРЭБ -.-. " +
                     "ВП (лек.) Г-242	Вакансия ВКСиРЭБ -.-. " +
                     "ВП (лек.) Г-242	Вакансия ВКСиРЭБ -.-. " +
                     "ВП (лек.) Г-242	Вакансия ВКСиРЭБ -.-. " +
                     "ВП (лек.) Г-242	Вакансия ВКСиРЭБ -.-. " +
                     "ВП (лек.) Г-242')");
 
-
-//            ResultSet rs = stmt.executeQuery("select * from PERSON");
-//            System.out.println("H2 Database inserted through Statement");
-//            while (rs.next()) {
-//                System.out.println("Id "+rs.getInt("id")+" Name "+rs.getString("name"));
-//            }
             stmt.close();
             connection.commit();
         } catch (SQLException e) {
