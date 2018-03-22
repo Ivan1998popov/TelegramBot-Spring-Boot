@@ -18,19 +18,16 @@ import static com.telegram.springboot.Schedule.insertWithStatement;
 @SpringBootApplication
 public class Application {
 
-	@PersistenceContext
-	static EntityManager em;
-
 	public static void main(String[] args) {
 		ApiContextInitializer.init();
-		try {
-
-			DeleteDbFiles.execute("~", "tbl_schedule", true);
-			insertWithStatement();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+//		try {
+//
+//			DeleteDbFiles.execute("~", "tbl_schedule", true);
+//			insertWithStatement();
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 		TelegramBotsApi telegramBotsApi =new TelegramBotsApi();
 
 		try{
@@ -40,7 +37,5 @@ public class Application {
 		}
 		SpringApplication.run(Application.class, args);
 	}
-
-
 
 }

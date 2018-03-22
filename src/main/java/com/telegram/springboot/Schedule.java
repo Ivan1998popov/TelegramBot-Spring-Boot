@@ -1,6 +1,7 @@
 package com.telegram.springboot;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.*;
@@ -10,7 +11,8 @@ import java.sql.*;
 public class Schedule {
 
     @Id
-    String id;
+    @GeneratedValue
+    Integer id;
 
     private static final String DB_DRIVER = "org.h2.Driver";
     private static final String DB_CONNECTION = "jdbc:h2:~/tbl_schedule";
@@ -56,5 +58,12 @@ public class Schedule {
             System.out.println(e.getMessage());
         }
         return dbConnection;
+    }
+
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "id=" + id +
+                '}';
     }
 }

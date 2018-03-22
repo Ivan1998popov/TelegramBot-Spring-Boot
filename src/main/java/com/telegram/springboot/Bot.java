@@ -14,6 +14,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Connection;
