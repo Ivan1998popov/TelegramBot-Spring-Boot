@@ -35,9 +35,9 @@ public class ApplicationTests extends TestCase {
 
 	@Test
 	public void contextLoads() {
-		TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionAttribute());
-		em.persist(new Schedule());
-		transactionManager.commit(status);
+//		TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionAttribute());
+//		em.persist(new Schedule());
+//		transactionManager.commit(status);
 		System.out.println(em.createQuery("SELECT c FROM Schedule c").getResultList());
 	//	System.out.println(em.createQuery("SELECT с  FROM Schedule с WHERE с.data = "
 	//			+"КТбо3-2 19.03.2018")
