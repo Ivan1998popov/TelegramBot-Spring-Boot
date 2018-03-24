@@ -33,24 +33,28 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         Message message =update.getMessage();
-        String query="SELECT  c.description FROM Schedule c WHERE concat(c.data_ ,' ',c.group_) = '"+message.getText()+"'";
-        if (message!=null&&message.hasText()){
-            if(message.getText().equals("/time_now")){
-                Date date = new Date();
-                SimpleDateFormat formatForDateNow = new SimpleDateFormat("E dd.MM.yyyy 'и время' hh:mm:ss a zzz");
-                sendMsg(message,"Привет, сегодня "+formatForDateNow.format(date));
-            }
-            else if(!em.createQuery(query)
-                    .getResultList().isEmpty()) {
-
-                sendMsg(message,em.createQuery(query)
-                        .getResultList().toString());
-            }else {
-                sendMsg(message,"Больше ничего пока не знаю!");
-            }
-        }
+        sendMsg(message,onUpdate(message.getText()));
     }
 
+    public String onUpdate(String msg){
+
+        String query="SELECT  c.description FROM Schedule c WHERE concat(c.data_ ,' ',c.group_) = '"+msg+"'";
+        if (!msg.isEmpty()) {
+            if (msg.equals("/time_now")) {
+                Date date = new Date();
+                SimpleDateFormat formatForDateNow = new SimpleDateFormat("E dd.MM.yyyy 'и время' hh:mm:ss a zzz");
+                return ("Привет, сегодня " + formatForDateNow.format(date));
+            } else if (!em.createQuery(query)
+                    .getResultList().isEmpty()) {
+
+                return em.createQuery(query)
+                        .getResultList().toString();
+            } else {
+                return "Больше ничего пока не знаю!";
+            }
+        }
+        return null;
+    }
     private void sendMsg(Message message, String s) {
         SendMessage sendMessage =new SendMessage();
         sendMessage.enableMarkdown(true);
