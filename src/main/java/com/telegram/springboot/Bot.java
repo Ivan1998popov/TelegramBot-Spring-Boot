@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -34,6 +35,17 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Message message =update.getMessage();
         sendMsg(message,onUpdate(message.getText()));
+        long chat_id = update.getMessage().getChatId();
+        SendPhoto msg = new SendPhoto()
+                .setChatId(chat_id)
+                .setPhoto("compusg.png")
+                .setCaption("Photo");
+
+        try {
+            sendPhoto(msg);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     public String onUpdate(String msg){
@@ -55,6 +67,7 @@ public class Bot extends TelegramLongPollingBot {
         }
         return null;
     }
+
     private void sendMsg(Message message, String s) {
         SendMessage sendMessage =new SendMessage();
         sendMessage.enableMarkdown(true);
@@ -63,6 +76,7 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.setText(s);
         try{
             sendMessage(sendMessage);
+
         }catch (TelegramApiException e){
             e.printStackTrace();
         }
