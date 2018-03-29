@@ -1,29 +1,22 @@
 package com.telegram.springboot;
 
-import ch.qos.logback.core.util.Loader;
-import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StreamUtils;
-import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.File;
-import java.sql.Statement;
+import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+
+import static org.h2.value.ValueLob.createBlob;
 
 
 @Service
@@ -37,13 +30,18 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Message message =update.getMessage();
         chat_id = update.getMessage().getChatId();
-        sendMsg(message,onUpdate(message.getText()));
+        if(onUpdate(message.getText()).equals("Photo")){
+            send_Photo(chat_id);
+        }else {
+            sendMsg(message, onUpdate(message.getText()));
+        }
     }
+
 
     public String onUpdate(String msg){
 
         String query="SELECT  c.description FROM Schedule c WHERE concat(c.data_ ,' ',c.group_) = '"+msg+"'";
-        String query_map="SELECT  c.image FROM GoogleMaps c WHERE c.id = 1";
+
         if (!msg.isEmpty()) {
             if (msg.equals("/time_now")) {
                 Date date = new Date();
@@ -55,22 +53,29 @@ public class Bot extends TelegramLongPollingBot {
                 return em.createQuery(query)
                         .getResultList().toString();
             } else if(msg.equals("/pic")) {
-                SendPhoto sendPhoto = new SendPhoto();
-                sendPhoto.setChatId(chat_id);
-               // sendPhoto.setNewPhoto(new File(em.createQuery(query_map).getResultList().toString()));
-                sendPhoto.setNewPhoto(new File("C:\\Users\\Иван\\Desktop\\Maps\\A.png"));
 
-                try {
-                    sendPhoto(sendPhoto);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
                 return "Photo";
             }else{
                 return "Больше ничего пока не знаю!";
             }
         }
         return null;
+    }
+
+    private void send_Photo(long chat_id) {
+        String query_map="SELECT  c.image FROM GoogleMaps c WHERE c.id = 1";
+        SendPhoto sendPhoto = new SendPhoto();
+        sendPhoto.setChatId(chat_id);
+        // sendPhoto.setNewPhoto(new File(em.createQuery(query_map).getResultList().toString()));
+        String image = em.createQuery(query_map).getResultList().toString();
+        System.out.println(image);
+        sendPhoto.setNewPhoto(new File("C:\\Users\\Иван\\Desktop\\Maps\\A.png"));
+
+        try {
+            sendPhoto(sendPhoto);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendMsg(Message message, String s) {

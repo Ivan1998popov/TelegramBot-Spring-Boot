@@ -2,6 +2,7 @@ package com.telegram.springboot;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.sql.Blob;
 import java.sql.Types;
 import java.util.Arrays;
 
@@ -14,7 +15,7 @@ public class GoogleMaps {
     public Integer id;
 
     @Column( columnDefinition = "varbinary(MAX)")
-    public byte[] image;
+    public Blob image;
 
     @Column
     public String url;
@@ -35,11 +36,11 @@ public class GoogleMaps {
         this.id = id;
     }
 
-    public byte[] getImage() {
+    public Blob getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(Blob image) {
         this.image = image;
     }
 
@@ -47,7 +48,7 @@ public class GoogleMaps {
     public String toString() {
         return "GoogleMaps{" +
                 "id=" + id +
-                ", image=" + Arrays.toString(image) +
+                ", image=" + image +
                 ", url='" + url + '\'' +
                 '}';
     }
