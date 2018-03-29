@@ -2,6 +2,8 @@ package com.telegram.springboot;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.sql.Types;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "tbl_google_img")
@@ -11,8 +13,19 @@ public class GoogleMaps {
     @GeneratedValue
     public Integer id;
 
-    @Column
+    @Column( columnDefinition = "varbinary(MAX)")
     public byte[] image;
+
+    @Column
+    public String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public Integer getId() {
         return id;
@@ -34,7 +47,8 @@ public class GoogleMaps {
     public String toString() {
         return "GoogleMaps{" +
                 "id=" + id +
-                ", image=" + image +
+                ", image=" + Arrays.toString(image) +
+                ", url='" + url + '\'' +
                 '}';
     }
 }
