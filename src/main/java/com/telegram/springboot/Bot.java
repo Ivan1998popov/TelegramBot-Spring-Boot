@@ -16,7 +16,7 @@ import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.h2.value.ValueLob.createBlob;
+
 
 
 @Service
@@ -30,10 +30,34 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Message message =update.getMessage();
         chat_id = update.getMessage().getChatId();
-        if(onUpdate(message.getText()).equals("Photo")){
-            send_Photo(chat_id);
+        String answer=onUpdate(message.getText());
+        if(answer.matches("[АаГгДдИиКк]")){
+            String index = null;
+            switch (answer){
+                case "a":
+                case "A":
+                    index="1";
+                    break;
+                case "г":
+                case "Г":
+                    index="2";
+                    break;
+                case "д":
+                case "Д":
+                    index="3";
+                    break;
+                case "и":
+                case "И":
+                    index="4";
+                    break;
+                case "к":
+                case "К":
+                    index="5";
+                    break;
+            }
+            send_Photo(chat_id,index);
         }else {
-            sendMsg(message, onUpdate(message.getText()));
+            sendMsg(message, answer);
         }
     }
 
@@ -43,7 +67,7 @@ public class Bot extends TelegramLongPollingBot {
         String query="SELECT  c.description FROM Schedule c WHERE concat(c.data_ ,' ',c.group_) = '"+msg+"'";
 
         if (!msg.isEmpty()) {
-            if (msg.equals("/time_now")) {
+            if (msg.equals("Время")) {
                 Date date = new Date();
                 SimpleDateFormat formatForDateNow = new SimpleDateFormat("E dd.MM.yyyy 'и время' hh:mm:ss a zzz");
                 return ("Привет, сегодня " + formatForDateNow.format(date));
@@ -52,9 +76,10 @@ public class Bot extends TelegramLongPollingBot {
 
                 return em.createQuery(query)
                         .getResultList().toString();
-            } else if(msg.equals("/pic")) {
+            } else if(msg.matches("Где находится корпус [АаГгДдИиКк]")) {
 
-                return "Photo";
+                char ch=msg.charAt(msg.length()-1);
+                return String.valueOf(ch);
             }else{
                 return "Больше ничего пока не знаю!";
             }
@@ -62,14 +87,16 @@ public class Bot extends TelegramLongPollingBot {
         return null;
     }
 
-    private void send_Photo(long chat_id) {
-        String query_map="SELECT  c.image FROM GoogleMaps c WHERE c.id = 1";
+    private void send_Photo(long chat_id,String index) {
+        String query_map="SELECT  c.url FROM GoogleMaps c WHERE c.id = '"+index+"'";
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chat_id);
         // sendPhoto.setNewPhoto(new File(em.createQuery(query_map).getResultList().toString()));
         String image = em.createQuery(query_map).getResultList().toString();
-        System.out.println(image);
-        sendPhoto.setNewPhoto(new File("C:\\Users\\Иван\\Desktop\\Maps\\A.png"));
+        String nexText = image.replaceAll("[\\[\\]]", "");
+        System.out.println(nexText);
+        //sendPhoto.setNewPhoto(new File(image));
+        sendPhoto.setPhoto(nexText);
 
         try {
             sendPhoto(sendPhoto);
