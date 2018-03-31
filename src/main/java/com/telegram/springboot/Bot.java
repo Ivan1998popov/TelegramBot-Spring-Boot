@@ -1,5 +1,6 @@
 package com.telegram.springboot;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
@@ -32,7 +33,10 @@ public class Bot extends TelegramLongPollingBot {
         chat_id = update.getMessage().getChatId();
         String answer=onUpdate(message.getText());
         if(answer.matches("\\S")){
-        send_Photo(chat_id,getIndex(answer));
+            if(!answer.matches("[0-9]")){
+                answer = WordUtils.capitalize(answer);
+            }
+        send_Photo(chat_id,answer);
         }else {
             sendMsg(message, answer);
         }
@@ -71,7 +75,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private void send_Photo(long chat_id,String index) {
-        String query_map="SELECT  c.url FROM GoogleMaps c WHERE c.id = '"+index+"'";
+        String query_map="SELECT  c.url FROM GoogleMaps c WHERE c.index = '"+index+"'";
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chat_id);
         String image = em.createQuery(query_map).getResultList().toString().replaceAll("[\\[\\]]", "");
@@ -97,41 +101,6 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    private String getIndex(String answer) {
-        switch (answer){
-            case "а":
-            case "А":
-                return "1";
-            case "г":
-            case "Г":
-                return "2";
-            case "д":
-            case "Д":
-                return "3";
-            case "и":
-            case "И":
-                return "4";
-            case "к":
-            case "К":
-                return "5";
-            case "1":
-                return "6";
-            case "2":
-                return "7";
-            case "3":
-                return "8";
-            case "4":
-                return "9";
-            case "5":
-                return "10";
-            case "6":
-                return "11";
-            case "7":
-                return "12";
-            default:
-                return null;
-        }
-    }
 
     @Override
     public String getBotUsername() {

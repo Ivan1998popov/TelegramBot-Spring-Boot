@@ -3,6 +3,7 @@ package com.telegram.springboot;
 import javax.persistence.*;
 
 
+
 @Entity
 @Table(name = "tbl_google_img")
 public class GoogleMaps {
@@ -13,6 +14,9 @@ public class GoogleMaps {
 
     @Column
     public String url;
+
+    @Column
+    public String index;
 
     public String getUrl() {
         return url;
@@ -30,11 +34,21 @@ public class GoogleMaps {
         this.id = id;
     }
 
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+
+        this.index = index;
+    }
+
     @Override
     public String toString() {
         return "GoogleMaps{" +
                 "id=" + id +
                 ", url='" + url + '\'' +
+                ", index='" + index + '\'' +
                 '}';
     }
 }
