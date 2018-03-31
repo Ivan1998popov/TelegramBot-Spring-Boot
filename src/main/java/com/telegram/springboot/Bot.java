@@ -17,7 +17,7 @@ import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+import static org.apache.tomcat.util.IntrospectionUtils.capitalize;
 
 
 @Service
@@ -34,7 +34,7 @@ public class Bot extends TelegramLongPollingBot {
         String answer=onUpdate(message.getText());
         if(answer.matches("\\S")){
             if(!answer.matches("[0-9]")){
-                answer = WordUtils.capitalize(answer);
+                answer = capitalize(answer);
             }
         send_Photo(chat_id,answer);
         }else {
@@ -78,7 +78,7 @@ public class Bot extends TelegramLongPollingBot {
         String query_map="SELECT  c.url FROM GoogleMaps c WHERE c.index = '"+index+"'";
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chat_id);
-        String image = em.createQuery(query_map).getResultList().toString().replaceAll("[\\[\\]]", "");
+        String image = em.createQuery(query_map).getSingleResult().toString();
         sendPhoto.setPhoto(image);
         try {
             sendPhoto(sendPhoto);
