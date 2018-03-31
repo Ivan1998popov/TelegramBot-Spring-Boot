@@ -56,7 +56,7 @@ public class ApplicationTests extends TestCase {
 
 		Date date = new Date();
 		SimpleDateFormat formatForDateNow = new SimpleDateFormat("E dd.MM.yyyy 'и время' hh:mm:ss a zzz");
-		Assert.assertEquals(bot.onUpdate("/time_now"),"Привет, сегодня " + formatForDateNow.format(date));
+		Assert.assertEquals(bot.onUpdate("Время"),"Привет, сегодня " + formatForDateNow.format(date));
 	}
 
 	@Test
@@ -67,5 +67,13 @@ public class ApplicationTests extends TestCase {
 				.getResultList().toString());
 	}
 
+	@Test
+	public void testHelp(){
+		Assert.assertEquals(bot.onUpdate("/help"), "Привет, я могу тебе помочь: " +
+				"\n узнать время (Время) " +
+				"\n узнать расписание ЮФУ (19.03.18 КТбо3-2) " +
+				"\n узнать местоположение корпуса ЮФУ(Где находится корпус А) " +
+				"\n узнать местоположение общежития (Где находится общежитие №1)");
+	}
 
 }

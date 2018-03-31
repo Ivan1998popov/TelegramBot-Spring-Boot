@@ -31,36 +31,12 @@ public class Bot extends TelegramLongPollingBot {
         Message message =update.getMessage();
         chat_id = update.getMessage().getChatId();
         String answer=onUpdate(message.getText());
-        if(answer.matches("[АаГгДдИиКк]")){
-            String index = null;
-            switch (answer){
-                case "a":
-                case "A":
-                    index="1";
-                    break;
-                case "г":
-                case "Г":
-                    index="2";
-                    break;
-                case "д":
-                case "Д":
-                    index="3";
-                    break;
-                case "и":
-                case "И":
-                    index="4";
-                    break;
-                case "к":
-                case "К":
-                    index="5";
-                    break;
-            }
-            send_Photo(chat_id,index);
+        if(answer.matches("\\S")){
+        send_Photo(chat_id,getIndex(answer));
         }else {
             sendMsg(message, answer);
         }
     }
-
 
     public String onUpdate(String msg){
 
@@ -76,10 +52,17 @@ public class Bot extends TelegramLongPollingBot {
 
                 return em.createQuery(query)
                         .getResultList().toString();
-            } else if(msg.matches("Где находится корпус [АаГгДдИиКк]")) {
-
+            } else if(msg.matches("[Гг]де находится ((корпус [АаГгДдИиКк])|(общежитие №[1-7]))")) {
                 char ch=msg.charAt(msg.length()-1);
                 return String.valueOf(ch);
+            }else if(msg.equals("/help")) {
+
+                return "Привет, я могу тебе помочь: " +
+                        "\n узнать время (Время) " +
+                        "\n узнать расписание ЮФУ (19.03.18 КТбо3-2) " +
+                        "\n узнать местоположение корпуса ЮФУ(Где находится корпус А) " +
+                        "\n узнать местоположение общежития (Где находится общежитие №1)";
+
             }else{
                 return "Больше ничего пока не знаю!";
             }
@@ -91,13 +74,8 @@ public class Bot extends TelegramLongPollingBot {
         String query_map="SELECT  c.url FROM GoogleMaps c WHERE c.id = '"+index+"'";
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chat_id);
-        // sendPhoto.setNewPhoto(new File(em.createQuery(query_map).getResultList().toString()));
-        String image = em.createQuery(query_map).getResultList().toString();
-        String nexText = image.replaceAll("[\\[\\]]", "");
-        System.out.println(nexText);
-        //sendPhoto.setNewPhoto(new File(image));
-        sendPhoto.setPhoto(nexText);
-
+        String image = em.createQuery(query_map).getResultList().toString().replaceAll("[\\[\\]]", "");
+        sendPhoto.setPhoto(image);
         try {
             sendPhoto(sendPhoto);
         } catch (TelegramApiException e) {
@@ -116,6 +94,42 @@ public class Bot extends TelegramLongPollingBot {
 
         }catch (TelegramApiException e){
             e.printStackTrace();
+        }
+    }
+
+    private String getIndex(String answer) {
+        switch (answer){
+            case "а":
+            case "А":
+                return "1";
+            case "г":
+            case "Г":
+                return "2";
+            case "д":
+            case "Д":
+                return "3";
+            case "и":
+            case "И":
+                return "4";
+            case "к":
+            case "К":
+                return "5";
+            case "1":
+                return "6";
+            case "2":
+                return "7";
+            case "3":
+                return "8";
+            case "4":
+                return "9";
+            case "5":
+                return "10";
+            case "6":
+                return "11";
+            case "7":
+                return "12";
+            default:
+                return null;
         }
     }
 
