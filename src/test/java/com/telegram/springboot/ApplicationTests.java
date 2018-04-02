@@ -68,6 +68,11 @@ public class ApplicationTests extends TestCase {
 	}
 
 	@Test
+	public void testGoogleMap(){
+		String s="где находится корпус Г";
+		Assert.assertEquals(bot.onUpdate(s),"Г");
+	}
+	@Test
 	public void testHelp(){
 		Assert.assertEquals(bot.onUpdate("/help"), "Привет, я могу тебе помочь: " +
 				"\n узнать время (Время) " +

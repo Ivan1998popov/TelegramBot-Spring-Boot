@@ -1,6 +1,8 @@
 package com.telegram.springboot;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.text.WordUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
@@ -12,10 +14,16 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static org.apache.tomcat.util.IntrospectionUtils.capitalize;
 
@@ -29,15 +37,15 @@ public class Bot extends TelegramLongPollingBot {
     public static long chat_id;
     @Override
     public void onUpdateReceived(Update update) {
-        Message message =update.getMessage();
+        Message message = update.getMessage();
         chat_id = update.getMessage().getChatId();
-        String answer=onUpdate(message.getText());
-        if(answer.matches("\\S")){
-            if(!answer.matches("[0-9]")){
+        String answer = onUpdate(message.getText());
+        if (answer.matches("\\S")) {
+            if (!answer.matches("[0-9]")) {
                 answer = capitalize(answer);
             }
-        send_Photo(chat_id,answer);
-        }else {
+            send_Photo(chat_id, answer);
+        } else {
             sendMsg(message, answer);
         }
     }
@@ -59,7 +67,23 @@ public class Bot extends TelegramLongPollingBot {
             } else if(msg.matches("[Гг]де находится ((корпус [АаГгДдИиКк])|(общежитие №[1-7]))")) {
                 char ch=msg.charAt(msg.length()-1);
                 return String.valueOf(ch);
-            }else if(msg.equals("/help")) {
+            }else if(msg.matches("[Кк]акая погода сегодня")){
+                Client client = ClientBuilder.newBuilder().build();
+                WebTarget target = client.target("http://api.openweathermap.org/data/2.5/weather?" +
+                        "q=Taganrog,ru&units=metric&appid=293da20ad6da8e2bb2974cc9760fbf87");
+                Response response = target.request().get();
+                String value = response.readEntity(String.class);
+                System.out.println(value);
+                response.close();  // You should close connections!
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    Weather weather =mapper.readValue(value,Weather.class);
+                    System.out.println(weather.getCoord());
+                    return "Привет";
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else  if(msg.equals("/help")) {
 
                 return "Привет, я могу тебе помочь: " +
                         "\n узнать время (Время) " +
