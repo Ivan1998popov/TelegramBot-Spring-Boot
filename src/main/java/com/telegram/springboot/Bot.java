@@ -1,8 +1,5 @@
 package com.telegram.springboot;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import org.apache.commons.lang3.text.WordUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
@@ -71,17 +68,9 @@ public class Bot extends TelegramLongPollingBot {
                 Client client = ClientBuilder.newBuilder().build();
                 WebTarget target = client.target("http://api.openweathermap.org/data/2.5/weather?" +
                         "q=Taganrog,ru&units=metric&appid=293da20ad6da8e2bb2974cc9760fbf87");
-                Response response = target.request().get();
-                String value = response.readEntity(String.class);
-                System.out.println(value);
-                response.close();  // You should close connections!
-                ObjectMapper mapper = new ObjectMapper();
-                try {
-                    Weather weather =mapper.readValue(value,Weather.class);
-                    System.out.println(weather.getCoord());
-                    return "Привет";
-                } catch (IOException e) {
-                    e.printStackTrace();
+                try (Response response = target.request().get()) {
+                    Weather weather = response.readEntity(Weather.class);
+                    return weather.toString();
                 }
             }else  if(msg.equals("/help")) {
 

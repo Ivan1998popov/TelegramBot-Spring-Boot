@@ -1,6 +1,11 @@
 package com.telegram.springboot;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import junit.framework.TestCase;
+import org.glassfish.jersey.client.ClientConfig;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +25,15 @@ import org.telegram.telegrambots.api.objects.Update;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Formatter;
+
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -79,6 +90,17 @@ public class ApplicationTests extends TestCase {
 				"\n узнать расписание ЮФУ (19.03.18 КТбо3-2) " +
 				"\n узнать местоположение корпуса ЮФУ(Где находится корпус А) " +
 				"\n узнать местоположение общежития (Где находится общежитие №1)");
+	}
+
+	@Test
+	public void testHelp2(){
+		Client client = ClientBuilder.newBuilder().build();
+		WebTarget target = client.target("http://api.openweathermap.org/data/2.5/weather?" +
+				"q=Taganrog,ru&units=metric&appid=293da20ad6da8e2bb2974cc9760fbf87");
+		Response response = target.request().get();
+		Weather value = response.readEntity(Weather.class);
+		System.out.println(value);
+
 	}
 
 }
