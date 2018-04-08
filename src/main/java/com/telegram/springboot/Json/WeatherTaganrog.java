@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherTaganrog {
 
     public Coord coord;
@@ -19,9 +19,8 @@ public class WeatherTaganrog {
     public String name;
     public int cod;
 
-    public WeatherTaganrog() {
-    }
 
+    public WeatherTaganrog() {}
     public WeatherTaganrog(Coord coord, List<Weather> weathers, String base, Main main, Wind wind, Clouds clouds, long dt, Sys sys, int id, String name, int cod) {
         this.coord = coord;
         this.weathers = weathers;

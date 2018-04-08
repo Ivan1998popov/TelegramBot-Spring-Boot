@@ -1,6 +1,8 @@
 package com.telegram.springboot;
 
+import com.telegram.springboot.Json.User;
 import com.telegram.springboot.Json.WeatherTaganrog;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -18,6 +20,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -68,17 +71,29 @@ public class Bot extends TelegramLongPollingBot {
             }else if(msg.matches("[Кк]акая погода сегодня")){
                 Client client = ClientBuilder.newBuilder().build();
                 WebTarget target = client.target("http://api.openweathermap.org/data/2.5/weather?q=Taganrog,ru&units=metric&appid=293da20ad6da8e2bb2974cc9760fbf87");
-               /* javax.ws.rs.core.Response jsonResponse = client.target("http://api.openweathermap.org/data/" +
-                        "2.5/weather?q=Taganrog,ru&units=metric&appid=2" +
-                        "93da20ad6da8e2bb2974cc9760fbf87").request(String.valueOf(MediaType.APPLICATION_JSON)).get();*/
-                try (Response response = target.request().get()) {
+                Response response = target.request().get();
+                String answer =response.readEntity(String.class);
+                ObjectMapper mapper = new ObjectMapper();
 
-                    //List<WeatherTaganrog> weather = response.readEntity(new GenericType<List<WeatherTaganrog>>(){})
-                    // WeatherTaganrog weather = jsonResponse.readEntity(WeatherTaganrog.class);
-                    String weather = response.readEntity(String.class);
-
-                    return weather.toString();
+                // Convert JSON string to Object
+                String jsonInString = "{\"age\":33,\"messages\":[\"msg 1\",\"msg 2\"],\"name\":\"mkyong\"}";
+                User user1 = null;
+                try {
+                    user1 = mapper.readValue(jsonInString, User.class);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                System.out.println(user1);
+//                WeatherTaganrog weather = new WeatherTaganrog();
+//                try {
+//                    weather = mapper.readValue(answer, WeatherTaganrog.class);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+
+
+                return user1.toString();
+
             }else  if(msg.equals("/help")) {
 
                 return "Привет, я могу тебе помочь: " +

@@ -2,27 +2,30 @@ package com.telegram.springboot.Json;
 
 public class Coord{
 
-    public float lon;
-    public float lat;
+    public double lon;
+    public double lat;
 
-    public Coord(float lon, float lat) {
+    public Coord () {
+
+    }
+    public Coord (double lon, double lat) {
         this.lon = lon;
         this.lat = lat;
     }
 
-    public float getLon() {
+    public double getLon() {
         return lon;
     }
 
-    public void setLon(float lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 
-    public float getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(float lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 

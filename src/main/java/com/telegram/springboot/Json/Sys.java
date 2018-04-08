@@ -7,9 +7,7 @@ public class Sys {
     public float sunrise;
     public float sunset;
 
-    public Sys() {
 
-    }
 
     public Sys(float message, String country, float sunrise, float sunset) {
         this.message = message;

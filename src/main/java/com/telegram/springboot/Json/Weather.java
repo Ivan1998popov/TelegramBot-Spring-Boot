@@ -7,9 +7,7 @@ public class Weather {
     public String description;
     public String icon;
 
-    public Weather() {
 
-    }
 
     public Weather(int id, String main, String description, String icon) {
         this.id = id;

@@ -5,7 +5,7 @@ public class Wind {
     public float speed;
     public float deg;
 
-    public Wind(){};
+
 
     public Wind(float speed, float deg) {
         this.speed = speed;
