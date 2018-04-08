@@ -1,6 +1,7 @@
 package com.telegram.springboot;
 
 import com.telegram.springboot.Json.WeatherTaganrog;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
@@ -66,11 +67,15 @@ public class Bot extends TelegramLongPollingBot {
                 return String.valueOf(ch);
             }else if(msg.matches("[Кк]акая погода сегодня")){
                 Client client = ClientBuilder.newBuilder().build();
-                WebTarget target = client.target("http://api.openweathermap.org/data/2.5/weather?" +
-                        "q=Taganrog,ru&units=metric&appid=293da20ad6da8e2bb2974cc9760fbf87");
+                WebTarget target = client.target("http://api.openweathermap.org/data/2.5/weather?q=Taganrog,ru&units=metric&appid=293da20ad6da8e2bb2974cc9760fbf87");
+               /* javax.ws.rs.core.Response jsonResponse = client.target("http://api.openweathermap.org/data/" +
+                        "2.5/weather?q=Taganrog,ru&units=metric&appid=2" +
+                        "93da20ad6da8e2bb2974cc9760fbf87").request(String.valueOf(MediaType.APPLICATION_JSON)).get();*/
                 try (Response response = target.request().get()) {
 
-                  List<WeatherTaganrog> weather = response.readEntity(new GenericType<List<WeatherTaganrog>>(){});
+                    //List<WeatherTaganrog> weather = response.readEntity(new GenericType<List<WeatherTaganrog>>(){})
+                    // WeatherTaganrog weather = jsonResponse.readEntity(WeatherTaganrog.class);
+                    String weather = response.readEntity(String.class);
 
                     return weather.toString();
                 }
