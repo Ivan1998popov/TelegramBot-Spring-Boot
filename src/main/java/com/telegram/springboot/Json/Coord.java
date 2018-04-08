@@ -5,6 +5,11 @@ public class Coord{
     public float lon;
     public float lat;
 
+    public Coord(float lon, float lat) {
+        this.lon = lon;
+        this.lat = lat;
+    }
+
     public float getLon() {
         return lon;
     }

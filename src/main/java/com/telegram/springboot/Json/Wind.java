@@ -5,6 +5,13 @@ public class Wind {
     public float speed;
     public float deg;
 
+    public Wind(){};
+
+    public Wind(float speed, float deg) {
+        this.speed = speed;
+        this.deg = deg;
+    }
+
     public float getSpeed() {
         return speed;
     }
