@@ -1,5 +1,6 @@
 package com.telegram.springboot;
 
+import com.telegram.springboot.Json.WeatherTaganrog;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
@@ -14,14 +15,13 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static javax.swing.UIManager.get;
 import static org.apache.tomcat.util.IntrospectionUtils.capitalize;
 
 
@@ -69,7 +69,9 @@ public class Bot extends TelegramLongPollingBot {
                 WebTarget target = client.target("http://api.openweathermap.org/data/2.5/weather?" +
                         "q=Taganrog,ru&units=metric&appid=293da20ad6da8e2bb2974cc9760fbf87");
                 try (Response response = target.request().get()) {
-                    Weather weather = response.readEntity(Weather.class);
+
+                  List<WeatherTaganrog> weather = response.readEntity(new GenericType<List<WeatherTaganrog>>(){});
+
                     return weather.toString();
                 }
             }else  if(msg.equals("/help")) {
