@@ -1,12 +1,6 @@
 package com.telegram.springboot;
 
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.telegram.springboot.Json.Coord;
-import com.telegram.springboot.Json.User;
 import com.telegram.springboot.Json.Weather;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
@@ -21,12 +15,9 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import static javax.swing.UIManager.get;
 import static org.apache.tomcat.util.IntrospectionUtils.capitalize;
@@ -84,7 +75,8 @@ public class Bot extends TelegramLongPollingBot {
                         "\n узнать время (Время) " +
                         "\n узнать расписание ЮФУ (19.03.18 КТбо3-2) " +
                         "\n узнать местоположение корпуса ЮФУ(Где находится корпус А) " +
-                        "\n узнать местоположение общежития (Где находится общежитие №1)";
+                        "\n узнать местоположение общежития (Где находится общежитие №1)"+
+                        "\n узнать какая погода в Таганроге сегодня (Какая погода сегодня)";
 
             }else{
                 return "Больше ничего пока не знаю!";

@@ -7,9 +7,8 @@ public class Wind {
 
 
 
-    public Wind(float speed, float deg) {
-        this.speed = speed;
-        this.deg = deg;
+    public Wind() {
+
     }
 
     public float getSpeed() {
@@ -30,9 +29,6 @@ public class Wind {
 
     @Override
     public String toString() {
-        return "Wind{" +
-                "speed=" + speed +
-                ", deg=" + deg +
-                '}';
+        return "Скорость ветра = " + speed +" м/с " ;
     }
 }

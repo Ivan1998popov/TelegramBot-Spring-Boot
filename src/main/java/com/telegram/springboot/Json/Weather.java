@@ -8,14 +8,9 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
     public class Weather {
 
-//    public Coord coord;
-//    public List<Weath> weathers;
-//    public String base;
     public Main main;
-//    public Wind wind;
-//    public Clouds clouds;
-//    public long dt;
-//    public Sys sys;
+    public Wind wind;
+
 
     public Main getMain() {
         return main;
@@ -25,11 +20,17 @@ import java.util.List;
         this.main = main;
     }
 
+    public Wind getWind() {
+        return wind;
+    }
+
+    public void setWind(Wind wind) {
+        this.wind = wind;
+    }
+
     @Override
     public String toString() {
-        return "Weather{" +
-                "main=" + main +
-                '}';
+        return "Погода на сегодня \n" + main+"\n" + wind;
     }
 }
 
