@@ -10,8 +10,9 @@ public class Main {
     public float sea_level;
     public float grnd_level;
 
+    public Main() {
 
-
+    }
 
     public Main(float temp, float pressure, float humidity, float temp_min, float temp_max, float sea_level, float grnd_level) {
         this.temp = temp;

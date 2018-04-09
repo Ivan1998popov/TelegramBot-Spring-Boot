@@ -1,7 +1,10 @@
 package com.telegram.springboot;
 
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.telegram.springboot.Json.Coord;
 import com.telegram.springboot.Json.User;
-import com.telegram.springboot.Json.WeatherTaganrog;
+import com.telegram.springboot.Json.Weather;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -72,27 +75,8 @@ public class Bot extends TelegramLongPollingBot {
                 Client client = ClientBuilder.newBuilder().build();
                 WebTarget target = client.target("http://api.openweathermap.org/data/2.5/weather?q=Taganrog,ru&units=metric&appid=293da20ad6da8e2bb2974cc9760fbf87");
                 Response response = target.request().get();
-                String answer =response.readEntity(String.class);
-                ObjectMapper mapper = new ObjectMapper();
-
-                // Convert JSON string to Object
-                String jsonInString = "{\"age\":33,\"messages\":[\"msg 1\",\"msg 2\"],\"name\":\"mkyong\"}";
-                User user1 = null;
-                try {
-                    user1 = mapper.readValue(jsonInString, User.class);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(user1);
-//                WeatherTaganrog weather = new WeatherTaganrog();
-//                try {
-//                    weather = mapper.readValue(answer, WeatherTaganrog.class);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
-
-                return user1.toString();
+                Weather weather = response.readEntity(Weather.class);
+                return weather.toString();
 
             }else  if(msg.equals("/help")) {
 

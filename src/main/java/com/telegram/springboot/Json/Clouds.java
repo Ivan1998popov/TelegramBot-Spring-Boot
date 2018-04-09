@@ -1,19 +1,19 @@
 package com.telegram.springboot.Json;
 
 public class Clouds {
-    public int all;
+    public double all;
 
 
 
-    public Clouds(int all) {
+    public Clouds(double all) {
         this.all = all;
     }
 
-    public int getAll() {
+    public double getAll() {
         return all;
     }
 
-    public void setAll(int all) {
+    public void setAll(double all) {
         this.all = all;
     }
 

@@ -1,6 +1,7 @@
 package com.telegram.springboot;
 
-import com.telegram.springboot.Json.WeatherTaganrog;
+
+import com.telegram.springboot.Json.Weather;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -83,7 +84,7 @@ public class ApplicationTests extends TestCase {
 		WebTarget target = client.target("http://api.openweathermap.org/data/2.5/weather?" +
 				"q=Taganrog,ru&units=metric&appid=293da20ad6da8e2bb2974cc9760fbf87");
 		Response response = target.request().get();
-		WeatherTaganrog value = response.readEntity(WeatherTaganrog.class);
+		Weather value = response.readEntity(Weather.class);
 		System.out.println(value);
 
 	}

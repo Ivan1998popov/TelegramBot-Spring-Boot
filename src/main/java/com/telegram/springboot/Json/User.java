@@ -1,11 +1,13 @@
 package com.telegram.springboot.Json;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private String name;
     private int age;
-    private List<String> messages;
+  //  private List<String> messages;
 
     public String getName() {
         return name;
@@ -23,20 +25,20 @@ public class User {
         this.age = age;
     }
 
-    public List<String> getMessages() {
-        return messages;
-    }
+//    public List<String> getMessages() {
+//        return messages;
+//    }
+//
+//    public void setMessages(List<String> messages) {
+//        this.messages = messages;
+//    }
 
-    public void setMessages(List<String> messages) {
-        this.messages = messages;
-    }
 
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
-                ", messages=" + messages +
                 '}';
     }
 }

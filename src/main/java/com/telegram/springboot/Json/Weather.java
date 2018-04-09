@@ -1,60 +1,36 @@
 package com.telegram.springboot.Json;
 
-public class Weather {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.codehaus.jackson.JsonNode;
 
-    public int id;
-    public String main;
-    public String description;
-    public String icon;
+import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+    public class Weather {
 
+//    public Coord coord;
+//    public List<Weath> weathers;
+//    public String base;
+    public Main main;
+//    public Wind wind;
+//    public Clouds clouds;
+//    public long dt;
+//    public Sys sys;
 
-    public Weather(int id, String main, String description, String icon) {
-        this.id = id;
-        this.main = main;
-        this.description = description;
-        this.icon = icon;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getMain() {
+    public Main getMain() {
         return main;
     }
 
-    public void setMain(String main) {
+    public void setMain(Main main) {
         this.main = main;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
 
     @Override
     public String toString() {
         return "Weather{" +
-                "id=" + id +
-                ", main='" + main + '\'' +
-                ", description='" + description + '\'' +
-                ", icon='" + icon + '\'' +
+                "main=" + main +
                 '}';
     }
 }
+
+
