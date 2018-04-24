@@ -76,7 +76,7 @@ public class Main {
     public String toString() {
         return "Температура: "  + temp +" °C\n"+
                 "Давление: " + pressure +" бар\n"+
-                "Влажность: " + humidity +" f\n"+
+                "Влажность: " + humidity +" %\n"+
                 "Минимальная температура: " + temp_min +" °C\n"+
                 "Максимальная температура: " + temp_max +" °C";
     }

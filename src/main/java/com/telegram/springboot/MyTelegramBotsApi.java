@@ -10,8 +10,12 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 public class MyTelegramBotsApi extends TelegramBotsApi {
 
     @Autowired
-    public MyTelegramBotsApi(Bot bot) throws TelegramApiRequestException {
-        registerBot(bot);
+    public MyTelegramBotsApi(Bot bot){
+        try {
+            registerBot(bot);
+        } catch (TelegramApiRequestException e) {
+            e.printStackTrace();
+        }
     }
 
 }

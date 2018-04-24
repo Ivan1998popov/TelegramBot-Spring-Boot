@@ -1,7 +1,7 @@
 package com.telegram.springboot.Json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.codehaus.jackson.JsonNode;
+
 
 import java.util.List;
 
