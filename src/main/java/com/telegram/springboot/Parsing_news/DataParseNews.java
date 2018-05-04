@@ -1,13 +1,16 @@
 package com.telegram.springboot.Parsing_news;
 
-public class DataParse {
+public class DataParseNews {
 
     private String url;
     private String name;
+    private String content;
 
-    public DataParse(String url, String name) {
+    public DataParseNews(String url, String name, String content) {
         this.url = url;
         this.name = name;
+        this.content=content;
+
     }
 
     public String getUrl() {
@@ -26,11 +29,20 @@ public class DataParse {
         this.name = name;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     @Override
     public String toString() {
-        return "DataParse{" +
+        return "DataParseNews{" +
                 "url='" + url + '\'' +
                 ", name='" + name + '\'' +
+                ", content='" + content + '\'' +
                 '}';
     }
 }

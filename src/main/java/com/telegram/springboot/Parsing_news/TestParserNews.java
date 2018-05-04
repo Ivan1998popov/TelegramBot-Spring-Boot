@@ -12,22 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TestParserJsoup {
+public class TestParserNews {
     public static void main(String[] args) throws IOException {
 
-        List<DataParse> dataParses =new ArrayList<>();
+        List<DataParseNews> dataParses =new ArrayList<>();
         List<String> content =new ArrayList<>();
+        List<String> url =new ArrayList<>();
+        List<String> name =new ArrayList<>();
 
         Document doc = Jsoup.connect("http://priem.tti.sfedu.ru/").get();
         Elements liElements = doc.getElementsByAttributeValue("class","mod-articles-category-title ");
 
         Elements pElements=doc.getElementsByAttributeValue("class","mod-articles-category-introtext");
-
         liElements.forEach(liElement->{
             Element aElement=liElement;
-            String url=aElement.attr("href");
-            String title = aElement.text();
-            dataParses.add(new DataParse(url,title));
+            url.add(aElement.attr("href"));
+            name.add(aElement.text());
         });
 
         pElements.forEach(pElement->{
@@ -36,8 +36,12 @@ public class TestParserJsoup {
 
         });
 
+        for (int j = 0; j <content.size() ; j++) {
+           dataParses.add(new DataParseNews(url.get(j),name.get(j),content.get(j)));
+        }
+
         dataParses.forEach(System.out::println);
-        content.forEach(System.out::println);
+
     }
 
 
