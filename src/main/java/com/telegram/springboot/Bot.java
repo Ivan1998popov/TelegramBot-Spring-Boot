@@ -1,6 +1,8 @@
 package com.telegram.springboot;
 
 import com.telegram.springboot.Json.Weather;
+import com.telegram.springboot.ParsingDirectionOfSpecialties.TestParserSpecialties;
+import com.telegram.springboot.Parsing_news.DataParseNews;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
@@ -18,6 +20,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static javax.swing.UIManager.get;
 import static org.apache.tomcat.util.IntrospectionUtils.capitalize;
@@ -69,7 +72,15 @@ public class Bot extends TelegramLongPollingBot {
                 Weather weather = response.readEntity(Weather.class);
                 return weather.toString();
 
-            }else  if(msg.equals("/help")) {
+            }else if(msg.matches("[Нн]овости ЮФУ")){
+                TestParserSpecialties r =new TestParserSpecialties();
+                List<DataParseNews> f=r.getDataParses();
+                String data="";
+                for (int i = 0; i < 5; i++) {
+                    data+=f.get(i).getName()+"\n"+f.get(i).getContent()+"\n\n\n";
+                }
+                return data;
+            }else if(msg.equals("/help")) {
 
                 return "Привет, я могу тебе помочь: " +
                         "\n узнать время (Время) " +
