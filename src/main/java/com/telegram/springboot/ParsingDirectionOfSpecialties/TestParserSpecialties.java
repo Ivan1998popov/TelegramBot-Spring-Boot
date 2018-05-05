@@ -75,6 +75,7 @@ public class TestParserSpecialties {
         }
 
         int count=0;
+        data.clear();
         for (Element table : docsp.select("table")) {
             for (Element row : table.select("tr")) {
                 try {
@@ -88,14 +89,24 @@ public class TestParserSpecialties {
                 }
             }
         }
-
+        String id;
+        dataParsingSpecialties.clear();
         for (int i = 3; i < data.size(); i++) {
             if(i==26||i==28){}else {
-                dataParsingSpecialties.add(new DataParsingSpecialties(data.get(i).get(0), data.get(i).get(6),
+                if(data.get(i).get(0).charAt(0)=='*') {
+                    id = data.get(i).get(0).substring(0, 9);
+                }
+                else {
+                    id=data.get(i).get(0).substring(0,8);
+                }
+                dataParsingSpecialties.add(new DataParsingSpecialties(id,data.get(i).get(0), data.get(i).get(6),
                         data.get(i).get(7), data.get(i).get(10)));
             }
         }
        dataParsingSpecialties.forEach(System.out::println);
     }
+
+
+
 }
 

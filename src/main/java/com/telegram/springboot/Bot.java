@@ -1,6 +1,7 @@
 package com.telegram.springboot;
 
 import com.telegram.springboot.Json.Weather;
+import com.telegram.springboot.ParsingDirectionOfSpecialties.DataParsingSpecialties;
 import com.telegram.springboot.ParsingDirectionOfSpecialties.TestParserSpecialties;
 import com.telegram.springboot.Parsing_news.DataParseNews;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,9 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     public String onUpdate(String msg){
-
+        List<DataParsingSpecialties> f=null;
+        List<DataParseNews> d=null;
+        TestParserSpecialties r =new TestParserSpecialties();
         String query="SELECT  c.description FROM Schedule c WHERE concat(c.data_ ,' ',c.group_) = '"+msg+"'";
 
         if (!msg.isEmpty()) {
@@ -73,14 +76,40 @@ public class Bot extends TelegramLongPollingBot {
                 return weather.toString();
 
             }else if(msg.matches("[Нн]овости ЮФУ")){
-                TestParserSpecialties r =new TestParserSpecialties();
-                List<DataParseNews> f=r.getDataParses();
+
+
+                d=r.getDataParses();
+
+
                 String data="";
                 for (int i = 0; i < 5; i++) {
-                    data+=f.get(i).getName()+"\n"+f.get(i).getContent()+"\n\n\n";
+                    data+=d.get(i).getName()+"\n"+d.get(i).getContent()+"\n\n\n";
                 }
                 return data;
-            }else if(msg.equals("/help")) {
+            }else if(msg.matches("[Нн]аправление [*]?[0-9][0-9].[0-9][0-9].[0-9][0-9]")){
+
+                f=r.getDataParsingSpecialties();
+                String spec=msg.substring(11);
+                int number_start_simvol=0;
+                if(spec.charAt(1)=='*'){
+                    number_start_simvol=1;
+                    spec=spec.substring(1);
+                }else {
+                    spec=spec.substring(1);
+                }
+
+
+
+
+                for (int i = 0; i <f.size() ; i++) {
+                    if(spec.equals(f.get(i).id_name)){
+                        String data=f.get(i).name_spec.substring(number_start_simvol)+"\n"+f.get(i).subjects+"\n"+f.get(i).marks+"\n"+f.get(i).structural;
+                        System.out.println(data);
+                        return data;
+                    }
+                }
+            }
+            else if(msg.equals("/help")) {
 
                 return "Привет, я могу тебе помочь: " +
                         "\n узнать время (Время) " +

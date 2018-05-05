@@ -1,5 +1,6 @@
 package com.telegram.springboot.Parsing_news;
 
+import com.telegram.springboot.ParsingDirectionOfSpecialties.DataParsingSpecialties;
 import com.telegram.springboot.ParsingDirectionOfSpecialties.TestParserSpecialties;
 import org.jsoup.Jsoup;
 
@@ -43,7 +44,7 @@ public class TestParserNews {
 //
 //        dataParses.forEach(System.out::println);
         TestParserSpecialties r =new TestParserSpecialties();
-        List<DataParseNews> f=r.getDataParses();
+        List<DataParsingSpecialties> f=r.getDataParsingSpecialties();
         f.forEach(System.out::println);
     }
 

@@ -2,18 +2,27 @@ package com.telegram.springboot.ParsingDirectionOfSpecialties;
 
 public class DataParsingSpecialties {
 
+    public String id_name;
     public String name_spec;
     public String subjects;
     public String marks;
     public String structural;
 
-    public DataParsingSpecialties(String name_spec, String subjects, String marks, String structural) {
+    public DataParsingSpecialties(String id_name,String name_spec, String subjects, String marks, String structural) {
+        this.id_name=id_name;
         this.name_spec = name_spec;
         this.subjects = subjects;
         this.marks = marks;
         this.structural = structural;
     }
 
+    public String getId_name() {
+        return id_name;
+    }
+
+    public void setId_name(String id_name) {
+        this.id_name = id_name;
+    }
 
     public String getName_spec() {
         return name_spec;
@@ -50,7 +59,8 @@ public class DataParsingSpecialties {
     @Override
     public String toString() {
         return "DataParsingSpecialties{" +
-                "name_spec='" + name_spec + '\'' +
+                "id_name='" + id_name + '\'' +
+                ", name_spec='" + name_spec + '\'' +
                 ", subjects='" + subjects + '\'' +
                 ", marks='" + marks + '\'' +
                 ", structural='" + structural + '\'' +
