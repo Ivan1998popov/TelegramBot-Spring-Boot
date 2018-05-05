@@ -62,7 +62,7 @@ public class TestParserSpecialties {
             dataParses.add(new DataParseNews(url.get(j),name.get(j),content.get(j)));
         }
 
-        dataParses.forEach(System.out::println);
+       // dataParses.forEach(System.out::println);
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +103,7 @@ public class TestParserSpecialties {
                         data.get(i).get(7), data.get(i).get(10)));
             }
         }
-       dataParsingSpecialties.forEach(System.out::println);
+      // dataParsingSpecialties.forEach(System.out::println);
     }
 
 
